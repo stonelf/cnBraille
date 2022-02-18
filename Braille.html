@@ -318,17 +318,17 @@ function getBraille() {
             p3;
         var t = py[0].toLowerCase();
         var b = [py[0]];
-        if (py.length == 1) {
+        if (py.length == 1) {//ACCII字符
             if (dictionary.transAsc[t]) {
                 b.push(dictionary.transAsc[t]);
                 data.braille.push(b);
             } else {
 
             }
-        } else {
-            if (py.length == 2) {
+        } else {//中文字符
+            if (py.length == 2) {//只有一个读音
                 py = py[1];
-            } else {
+            } else {//多音字
                 py = py[data.selectedPYIndex[i] + 1];
             }
             if (py.charAt(1) == "h") {
@@ -349,11 +349,13 @@ function getBraille() {
             if (p1) {
                 b.push(dictionary.transPY1[p1]);
             }
-            b.push(dictionary.transPY2[p2]);
+			if(!/^((zhi)|(chi)|(shi)|(zi)|(ci)|(si)|(ri))\d*$/.test(py)){
+				//这几个拼音不需要韵母
+				b.push(dictionary.transPY2[p2]);
+			}
             if (data.showTone) {
                 b.push(dictionary.transPY3[p3])
             }
-            ;
             data.braille.push(b);
         }
     }
@@ -408,4 +410,3 @@ function showBraille() {
 //-->
 </script>
 </html>
-
